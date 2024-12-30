@@ -11,24 +11,21 @@
  * @return {number[]}
  */
 var postorder = function(root) {
-      const output = [];
-    helper(root, output);
-    return output;
-};
+    if (root === null) return [];
 
-/**
- * Helper function for recursion.
- * @param {_Node|null} root
- * @param {number[]} output
- */
-var helper = function(root, output) {
-    if (root === null) return;
+    const output = [];
+    const stack = [root];
 
-    // Recursively traverse each child
-    for (let i = 0; i < root.children.length; i++) {
-        helper(root.children[i], output);
+    while (stack.length > 0) {
+        const node = stack.pop();
+        output.push(node.val);
+
+        // Push all children onto the stack
+        for (const child of node.children) {
+            stack.push(child);
+        }
     }
 
-    // Add the current node's value
-    output.push(root.val);
+    // Since we processed the root before the children, reverse the output
+    return output.reverse();
 };
